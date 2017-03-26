@@ -11,7 +11,7 @@ _Playground challenge, turned to getting started challenge_
 
 * `To_share/00_format_donnees.R` : create data.table structure with correct variables classes.
 
-* `To_share/01_exploration_generale.rmd` : rmarkdown to visualise each variable.
+* `To_share/01_exploration_generale.rmd` : rmarkdown to visualise each variable. French version [here](http://prise6.deblan.org/KaggleHousePrices/01_exploration_generale.html).
 
 
 #### Modelisation
