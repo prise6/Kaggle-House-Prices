@@ -1,0 +1,81 @@
+Variable;Type;Commentaire_en;Commentaire_fr
+MSSubClass;Nominal;Identifies the type of dwelling involved in the sale;Qualifie le type de logement de facon macro
+MSZoning;Nominal;Identifies the general zoning classification of the sale;Qualifie le type de zone du logement
+LotFrontage;Continuous;Linear feet of street connected to property;Mesure en pied la distance commune entre la rue et la propriété
+LotArea;Continuous;Lot size in square feet;Surface de la propriété en pied2
+Street;Nominal;Type of road access to property;Type de la route pour accèder à la propriété
+Alley;Nominal;Type of alley access to property;Type de l'allée pour acceder à la propriété
+LotShape;Ordinal;General shape of property;Forme générale de la propriété
+LandContour;Nominal;Flatness of the property;Platitude du sol de la propriété
+Utilities;Ordinal;Type of utilities available;Type de service publiques à disposition
+LotConfig;Nominal;Lot configuration;Configuration de la propriété
+LandSlope;Ordinal;Slope of property;Pente de la propriété
+Neighborhood;Nominal;Physical locations within Ames city limits (map available);Localisation (quartier) de la propriété 
+Condition1;Nominal;Proximity to various conditions;Proche de plusieurs type de condition
+Condition2;Nominal;Proximity to various conditions (if more than one is present);Proche de plusieurs type de condition
+BldgType;Nominal;Type of dwelling;Type du batiment
+HouseStyle;Nominal;Style of dwelling;Style du batiment
+OverallQual;Ordinal;Rates the overall material and finish of the house;Note general du batiment et de la finition de la maison
+OverallCond;Ordinal;Rates the overall condition of the house;Note general de l'emplacement de la maison
+YearBuilt;Discrete;Original construction date;Date de la construction
+YearRemodAdd;Discrete;Remodel date (same as construction date if no remodeling or additions);Date de modification (même que YearBuilt si aucune modification)
+RoofStyle;Nominal;Type of roof;Type de toit
+RoofMatl;Nominal;Roof material;Materiaux de toiture
+Exterior1st;Nominal;Exterior covering on house;Revêtement facade
+Exterior2nd;Nominal;Exterior covering on house (if more than one material);Revêtement facade (si plus d'un revêtement)
+MasVnrType;Nominal;Masonry veneer type;Type placage en maconnerie
+MasVnrArea;Continuous;Masonry veneer area in square feet;Surface de placage en maconnerie en pied au carre
+ExterQual;Ordinal;Evaluates the quality of the material on the exterior ;Evalue la qualité des matériaux extérieures
+ExterCond;Ordinal;Evaluates the present condition of the material on the exterior;Evalue l'état réel des matériaux extérieurs
+Foundation;Nominal;Type of foundation;Type de fondation
+BsmtQual;Ordinal;Evaluates the height of the basement;Evalue la taille du sous-sol (dans le sens socle de fondation)
+BsmtCond;Ordinal;Evaluates the general condition of the basement;Evalue les condition general du sous-sol (dans le sens socle de fondation)
+BsmtExposure;Ordinal;Refers to walkout or garden level walls;Walkout = sous-sol à entrée directe
+BsmtFinType1;Ordinal;Rating of basement finished area;Note du sous-sol (est-ce vivable?)
+BsmtFinSF1;Continuous;Type 1 finished square feet;Surface finie (habitable?) du sous-sol de type 1
+BsmtFinType2;Ordinal;Rating of basement finished area (if multiple types);Note du sous-sol (est-ce vivable?) type 2 si plusieurs types
+BsmtFinSF2;Continuous;Type 2 finished square feet;Surface finie (habitable?) du sous-sol de type 2
+BsmtUnfSF;Continuous;Unfinished square feet of basement area;Surface non finie du sous-sol (non habitable?)
+TotalBsmtSF;Continuous;Total square feet of basement area;Surface totale du sous-sol
+Heating;Nominal;Type of heating;Type de chauffage
+HeatingQC;Ordinal;Heating quality and condition;Qualité et état du chauffage
+CentralAir;Nominal;Central air conditioning;Air conditionné
+Electrical;Ordinal;Electrical system;Systeme electrique
+1stFlrSF;Continuous;First Floor square feet;Surface du premier etage
+2ndFlrSF;Continuous;Second Floor square feet;Surface du second etage
+LowQualFinSF;Continuous;Low quality finished square feet (all floors);Surface globale ?
+GrLivArea;Continuous;Above grade (ground) living area square feet;Surface globale hormis sous-sol ?
+BsmtFullBath;Discrete;Basement full bathrooms;Nombre de salle de bain complète au sous sol
+BsmtHalfBath;Discrete;Basement half bathrooms;Nombre de salle de bain au sous sol
+FullBath;Discrete;Full bathrooms above grade;Nombre de salle de bain complète sans compter le sous sol
+HalfBath;Discrete;Half bathrooms above grade;Nombre de salle de bain sans compter le sous sol
+BedroomAbvGr;Discrete;Bedrooms above grade (does NOT include basement bedrooms);Nombre de chambre en dehors du sous sol
+KitchenAbvGr;Discrete;Kitchens above grade;Nombre de cuisine
+KitchenQual;Ordinal;Kitchen quality;Qualité cuisine
+TotRmsAbvGrd;Discrete;Total rooms above grade (does not include bathrooms);Nombre de pièce hors sous-sol et salle de bain
+Functional;Ordinal;Home functionality (Assume typical unless deductions are warranted);??
+Fireplaces;Discrete;Number of fireplaces;Nombre de cheminée
+FireplaceQu;Ordinal;Fireplace quality;Qualité cheminée
+GarageType;Nominal;Garage location;localisation du garage
+GarageYrBlt;Discrete;Year garage was built;Année de construction du garage
+GarageFinish;Ordinal;Interior finish of the garage;Finition intérieure du garage
+GarageCars;Discrete;Size of garage in car capacity;Taille du garage en capacité de nombre de voiture
+GarageArea;Continuous;Size of garage in square feet;Taille du garage en pied carré
+GarageQual;Ordinal;Garage quality;Qualité du garage
+GarageCond;Ordinal;Garage condition;Etat du garage
+PavedDrive;Ordinal;Paved driveway;Allée pavée
+WoodDeckSF;Continuous;Wood deck area in square feet;Surface terasse en bois en pied carre
+OpenPorchSF;Continuous;Open porch area in square feet;Surface du perron (ouvert) en pied carre
+EnclosedPorch;Continuous;Enclosed porch area in square feet;Surface du perron (fermé, veranda?) en pied carre
+3SsnPorch;Continuous;Three season porch area in square feet;Surface veranda en pied carre
+ScreenPorch;Continuous;Screen porch area in square feet;Surface veranda (avec moustiquaire) en pied carre
+PoolArea;Continuous;Pool area in square feet;Surface de la piscine en pied carre
+PoolQC;Ordinal;Pool quality;Qualité de la piscine
+Fence;Ordinal;Fence quality;Qualité clôture
+MiscFeature;Nominal;Miscellaneous feature not covered in other categories;Autres propriétés non mentionné par les autres variables
+MiscVal;Continuous;$Value of miscellaneous feature;Valeur monétaire des propriétés non mentionnées
+MoSold;Discrete;Month Sold (MM);Mois de vente
+YrSold;Discrete;Year Sold (YYYY);Année de vente
+SaleType;Nominal;Type of sale;Type de vente
+SaleCondition;Nominal;Condition of sale;Condition de vente
+SalePrice;Continuous;Sale price;Prix de vente

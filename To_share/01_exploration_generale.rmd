@@ -1,0 +1,156 @@
+---
+title: "[FR] Exploration des données"
+author: "Lincoln - François"
+date: "03 janvier 2017"
+output: 
+  html_document: 
+    keep_md: no
+    toc: yes
+---
+
+```{r initialisation, collapse=T, echo=FALSE}
+library(data.table)
+library(ggplot2)
+
+dic_var = data.table::fread("../R_in/dictionnaire_variables.csv")
+dic_nvx = data.table::fread("../R_in/dictionnaire_niveaux.csv")
+
+dataset = readRDS("../Datas/dataset_format.RDS")
+train = dataset[set == "train"]
+```
+
+## Introduction
+
+
+Exploration univariée de chaque variable du jeu de données. 
+Exploration par rapport à la cible.
+Nombre de valeur manquante.
+
+Il y a `r uniqueN(dic_var$Variable)-1` variables explicatives. 
+
+Il y a `r uniqueN(dic_var[Type == "Nominal", Variable])` variables nominale.
+
+Il y a `r uniqueN(dic_var[Type == "Ordinal", Variable])` variables ordinale.
+
+Il y a `r uniqueN(dic_var[Type == "Discrete", Variable])` variables discrète.
+
+Il y a `r uniqueN(dic_var[Type == "Continuous", Variable])` variables continue.
+
+(j'ai essayé de traduire le libellé des variables rapidement ...)
+
+## Exploration de la cible
+
+### SalePrice
+```{r summary_salePrice, collapse=TRUE}
+train[, summary(SalePrice)]
+```
+
+```{r boxplot_salePrice, echo=FALSE, collapse=TRUE}
+boxplot(train[, SalePrice])
+```
+
+### LogSalePrice
+```{r summary_logSalePrice, collapse=TRUE}
+train[, summary(logSalePrice)]
+```
+
+```{r boxplot_logSalePrice, echo=FALSE, collapse=TRUE}
+boxplot(train[, logSalePrice])
+```
+
+```{r densite_logSalePrice, echo=FALSE}
+ggplot(train, aes(logSalePrice)) + geom_histogram(aes(y=..density..), position = "identity",  bins = 50, alpha = .5) + geom_density(alpha = .3)
+```
+
+## Liste des variables et valeurs manquantes
+
+Parfois certaines variables ont des NA's "logique", à voir s'il y a des valeurs manquantes "missing at random".
+Supression des variables dans ce tableau n'ayant aucune valeurs manquantes dans les deux sets.
+
+
+```{r, echo=FALSE, results='hide'}
+tmp = dataset[, lapply(.SD, function(x) sum(is.na(x))), by = "set", .SDcols = colnames(dataset)]
+
+suppressWarnings({
+  t = melt.data.table(tmp, variable.name = "variable", value.name = "NA's")
+})
+
+t[, somme := sum(`NA's`), by = "variable"]
+t = t[somme>0]
+setorder(t, -somme, variable, set)
+t[, somme := NULL]
+```
+
+```{r, results='asis', echo=FALSE}
+cat(knitr::kable(t, format = "html", table.attr = "class='table'"))
+```
+
+
+## Exploration univariée
+
+```{r test, warning=FALSE, results='asis', echo=FALSE}
+
+for(var in dic_var$Variable){
+  type = dic_var[Variable == var, Type]
+  com_en = dic_var[Variable == var, Commentaire_en]
+  com_fr = dic_var[Variable == var, Commentaire_fr]
+  
+  
+  cat(sprintf("<h3 class='title'>%s (%s)</h3>", var, type))
+  cat(sprintf("<h5 class='title'>%s</h5>", com_en))
+  cat(sprintf("<h5 class='title'><em>[FR] %s</em></h5>", com_fr))
+  
+  
+  if(type == "Nominal" | type == "Ordinal") {
+    # graphiques
+    g1 = ggplot(dataset, aes(get(var))) + geom_bar(aes(fill = set), position = "dodge", stat = "count") + xlab(var)
+    g2 = ggplot(dataset[set == "train"], aes(x = get(var), y = logSalePrice)) + geom_boxplot() + xlab(var)
+    
+    # tableau
+    tmp = dataset[, list(Effectif = .N), by = c(var, "set")]
+    tmp[, Pourcent := round(Effectif/sum(Effectif)*100, digits = 2), by = set]
+    
+    t1 = dcast.data.table(tmp, formula = get(var)~set, value.var = "Effectif", fill = 0)
+    t2 = dcast.data.table(tmp, formula = get(var)~set, value.var = "Pourcent", fill = 0)
+    
+    t1[, var := as.character(var)]
+    t2[, var := as.character(var)]
+    
+    t = data.table(expand.grid(as.character(unique(tmp[[var]]))))
+    setnames(t, "var")
+    t = merge(t, t1, by = "var", all.y = T)
+    t = merge(t, t2, by = "var", all.y = T)
+    
+    setnames(t, c(var, "Eff. train", "Eff. test", "% train", "% test"))
+    t = merge(t, dic_nvx[Variable == var, list(Niveau, Libelle)], by.x = var, by.y = "Niveau", sort = T, all.x = T)
+    setcolorder(t, c(var, "Libelle", "Eff. train", "Eff. test", "% train", "% test"))
+    t = rbindlist(list(t,
+              data.table("Total", "Total", sum(t$`Eff. train`), sum(t$`Eff. test`), sum(t$`% train`), sum(t$`% test`))))
+    
+  } else if (type == "Discrete" | type == "Continuous") {
+    # graphiques
+    g1 = ggplot(dataset, aes(get(var))) + geom_histogram(aes(y=..density.., fill = set), position = "dodge",  bins = 50, alpha = .5) + geom_density(aes(fill = set), alpha = .3)
+    g2 = ggplot(dataset, aes(x = get(var), y = logSalePrice)) + geom_point() + geom_smooth() + xlab(var)
+    
+    # tableau
+    t = dataset[, list(
+      `Min.`    = min(get(var), na.rm = T),
+      `1st Qu.` = quantile(get(var), .25, na.rm = T),
+      `Median`  = median(get(var), na.rm = T),
+      `3rd Qu.` = quantile(get(var), .75, na.rm = T),
+      `Max.`    = max(get(var), na.rm = T),
+      `NA's`    = sum(is.na(get(var)))
+      ), by = set]
+  }
+  
+  cat(sprintf("<h4>%s</h3>", "Tableau"))
+  cat(knitr::kable(t, format = "html", table.attr = "class='table'"))
+  
+  cat(sprintf("<h4>%s</h3>", "Graphiques"))
+  print(g1)
+  print(g2)
+  cat("<br/><br/>")  
+}
+
+```
+

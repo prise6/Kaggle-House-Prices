@@ -1,0 +1,15 @@
+*
+
+!*/
+!.gitignore
+!README.md
+
+!R_in/test_set_complete.csv
+!R_in/Neighborhood_details.csv
+!R_in/dictionnaire_variables.csv
+!R_in/dictionnaire_niveaux.csv
+
+!Datas/train.csv
+!Datas/test.csv
+
+!To_share/*
